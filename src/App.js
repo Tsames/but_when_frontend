@@ -8,9 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 //Components
-import './components/Nav.js';
-import './components/Main.js';
-import './components/Footer.js';
+import Nav from './components/Nav.js';
+import Main from './components/Main.js';
+import Footer from './components/Footer.js';
 
 function App() {
   return (
