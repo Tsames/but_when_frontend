@@ -1,9 +1,14 @@
+//Import Dependencies
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import reportWebVitals from './reportWebVitals';
+
+//Import Components
+import App from './App';
+
+//Import Styles
+import './index.css';
 
 ReactDOM.render(
   <Router>
