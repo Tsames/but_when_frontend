@@ -12,9 +12,6 @@ import Footer from './components/Footer.js';
 
 function App(props) {
 
-  //Set UserData in State
-  const [authState, setAuthState] = React.useState({ username: null, name: null, token: null})
-
   return (
     <div className="App">
       <Header />

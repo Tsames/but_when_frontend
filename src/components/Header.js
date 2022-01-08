@@ -12,7 +12,7 @@ function Header(props) {
   return (
     <Navbar style={{ backgroundColor: `${colorNavBar}` }}>
       <Container>
-        <Navbar.Brand href="#home" className="justify-content-start" ><Link to="/" style={{ color: `${colorNavItem}` }}><i className={"bi-house-fill"}></i></Link></Navbar.Brand>
+        <Navbar.Brand className="justify-content-start" ><Link to="/" style={{ color: `${colorNavItem}` }}><i className={"bi-house-fill"}></i></Link></Navbar.Brand>
         <Nav className={"me-auto"}>
           <Link to="/events/create">
             <Nav.Item style={{ color: `${colorNavItem}` }}><i className={"bi-vector-pen"} style={{ color: `${colorNavItem}` }}></i></Nav.Item>

@@ -1,61 +1,86 @@
 //Dependencies
 import React from 'react';
-import { Route, Link, Switch } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Route, Switch } from "react-router-dom";
 
-//Components - No Auth
-import Home from '../pages/no_auth/Home.js';
-import ViewEvent from '../pages/no_auth/ViewEvent.js';
-import ViewEventResults from '../pages/no_auth/ViewEventResults.js';
-import SubmitAvailability from '../pages/no_auth/SubmitAvailability.js';
+//Components
+import Home from '../pages/Home.js';
+import ShowEvent from '../pages/ShowEvent.js';
+import CreateEvent from '../pages/CreateEvent.js';
+import EditEvent from '../pages/EditEvent.js';
 
-//Components - Req Auth
-import CreateEvent from '../pages/req_auth/CreateEvent.js';
-import EditCreatedEvent from '../pages/req_auth/EditCreatedEvent.js';
-import ViewAllCreated from '../pages/req_auth/ViewAllCreated.js';
 
 const Main = (props) => {
 
   //Set Event & Corresponding Availabilities in State
-  const [event, setEvent] = React.useState(null);
-  const [availabilities, SetAvailabilities] = React.useState(null)
+  const [events, setEvents] = useState(null);
 
-  //Twin Functions for Constructing Relevant API Routes
-  const getEventUrl = (eventId) => {
-    return(
-      `https://but-when-backend.herokuapp.com/events/${eventId}`
-    )
-  }
-
-  const getAvailUrl = (eventId) => {
-    return (
-      `https://but-when-backend.herokuapp.com/availabilities/${eventId}`
-    )
+  //Construct Relevant API Endpoint
+  const getApiUrl = (eventId = null) => {
+    if (eventId == null) {
+      return "https://but-when-backend.herokuapp.com/events"
+    } else {
+      return `https://but-when-backend.herokuapp.com/events/${eventId}`
+    }
   }
 
   //Get Event Data
   const getEventData = async (eventId) => {
-    const apiUrl = getEventUrl(eventId);
+    const apiUrl = getApiUrl(eventId);
     const response = await fetch(apiUrl);
     const data = await response.json();
-    setEvent(data)
+    setEvents(data)
   };
+
+  //Create Event
+  const createEvent = async (event) => {
+    await fetch(URL, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(event),
+    });
+  };
+
+  //Update Event
+  const updateEvent = async (events, id) => {
+    await fetch(URL + id, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(events),
+    })
+    getEventData()
+  }
+
+  //Delete Event
+  const deleteEvent = async (eventId) => {
+    const apiUrl = getApiUrl(eventId);
+    await fetch(apiUrl, {
+      method: "delete",
+    })
+    getEventData()
+  }
+
+  useEffect(() => getEventData(), []);
 
   return (
   <div className="main">
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/events/create" component={CreateEvent} />
-        <Route exact path="/my_events" component={ViewAllCreated} />
-
-        {/* <Route exact path="/events/:id" component={ViewEvent} event={event}/> */}
-
-        <Route path="/events/:id" render={(routerProps) => (
-          <ViewEvent {...routerProps} event={event} getEvent={getEventData}/>
+        <Route exact path="/" render={(routerProps) => (
+          <Home {...routerProps} events={events} getEventData={getEventData}/>
+        )} />
+        <Route exact path="/events/create" render={(routerProps) => (
+          <CreateEvent {...routerProps} events={events} createEvent={createEvent}/>
         )}/>
-
-        {/* <Route exact path="/events/:id/submit" component={SubmitAvailability} />
-        <Route exact path="/events/:id/results" component={ViewEventResults} />
-        <Route exact path="/events/:id/edit" component={EditCreatedEvent} /> */}
+        <Route exact path="/events/:id" render={(routerProps) => (
+          <ShowEvent {...routerProps} events={events} deleteEvent={deleteEvent}/>
+        )} />
+        <Route exact path="/events/:id/edit" render={(routerProps) => (
+          <EditEvent {...routerProps} events={events} updateEvent={updateEvent}/>
+        )} />
       </Switch>
     </div>
   )
