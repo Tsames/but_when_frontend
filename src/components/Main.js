@@ -16,7 +16,7 @@ const Main = (props) => {
   const [events, setEvents] = useState(null);
 
   //Construct Relevant API Endpoint
-  const getApiUrl = (eventId = null) => {
+  const getApiUrl = (eventId = null, create) => {
     if (eventId == null) {
       return "https://but-when-backend.herokuapp.com/events"
     } else {
@@ -34,18 +34,21 @@ const Main = (props) => {
 
   //Create Event
   const createEvent = async (event) => {
-    await fetch(URL, {
+    const apiUrl = getApiUrl();
+    await fetch(apiUrl, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(event),
     });
+    getEventData();
   };
 
   //Update Event
-  const updateEvent = async (events, id) => {
-    await fetch(URL + id, {
+  const updateEvent = async (id) => {
+    const apiUrl = getApiUrl(id);
+    await fetch(apiUrl, {
       method: "put",
       headers: {
         "Content-Type": "application/json",

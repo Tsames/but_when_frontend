@@ -15,8 +15,9 @@ const Home = ({events}) => {
   }
 
   return (
-    <div id="welcomeBlock">
-      <ul>
+    <div className="welcomeBlock">
+      <h2 className="welcomeHeading">Events:</h2>
+      <ul className="welcomeList">
         {events ? loaded() : loading()}
       </ul>
     </div>
