@@ -1,11 +1,22 @@
+//Dependencies
 import React from 'react';
 import { useState } from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
 const EditEvent = ({ events, match, history, updateEvent }) => {
 
   //Grab Single Event
   const id = parseInt(match.params.id);
   const event = events.find((event) => event.id === id);
+
+  //Modal State and Callbacks
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (event) => {
+    event.preventDefault()
+    setShow(true);
+  }
 
   //Declare Edit Form in State
   const [form, setForm] = useState({
@@ -38,7 +49,7 @@ const EditEvent = ({ events, match, history, updateEvent }) => {
     return <div className={"createBlock"}>
       <h1 className={"updateHeading"}>Edit</h1>
       <div className="formCreate">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleShow}>
           <input
             type="text"
             value={form.title}
@@ -77,6 +88,20 @@ const EditEvent = ({ events, match, history, updateEvent }) => {
   return (
     <section>
       <div className="EditBlock">
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Are you sure?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>These are some serious changes, are you sure that you want to make them?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
         {editOption()}
       </div>
     </section>
