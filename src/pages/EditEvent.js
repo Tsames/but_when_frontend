@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-const EditCreatedEvent = ({ events, match, history, updateEvent }) => {
+const EditEvent = ({ events, match, history, updateEvent }) => {
 
   //Grab Single Event
   const id = parseInt(match.params.id);
@@ -23,7 +23,7 @@ const EditCreatedEvent = ({ events, match, history, updateEvent }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateEvent(form);
+    updateEvent(form, id);
     setForm({
       title: "",
       location: "",
@@ -84,4 +84,4 @@ const EditCreatedEvent = ({ events, match, history, updateEvent }) => {
 
 }
 
-export default EditCreatedEvent;
+export default EditEvent;

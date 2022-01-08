@@ -46,14 +46,14 @@ const Main = (props) => {
   };
 
   //Update Event
-  const updateEvent = async (id) => {
+  const updateEvent = async (event, id) => {
     const apiUrl = getApiUrl(id);
     await fetch(apiUrl, {
       method: "put",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(events),
+      body: JSON.stringify(event),
     })
     getEventData()
   }
